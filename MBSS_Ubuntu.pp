@@ -1,0 +1,322 @@
+################Limit Access To The Root Account From su - Checking if 'auth required ######################
+
+exec { "sed":
+        command => "sed -i 's/#auth       required   pam_wheel.so/auth       required   pam_wheel.so/g' /etc/pam.d/su",
+        path    => "/usr/local/bin/:/bin/",
+     }
+
+##########################Disable Standard Services - Checking that standard services ##############
+
+exec { "updaterc":
+        command => "update-rc.d sendmail disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc1":
+        command => "update-rc.d nfs disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc2":
+        command => "update-rc.d xinetd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc3":
+        command => "update-rc.d rlogin disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc4":
+        command => "update-rc.d rexec disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc5":
+        command => "update-rc.d rsh disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc6":
+        command => "update-rc.d rsync disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc7":
+        command => "update-rc.d smb disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc8":
+        command => "update-rc.d snmpd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc9":
+        command => "update-rc.d vsftpd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc10":
+        command => "update-rc.d rhnsd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc11":
+        command => "update-rc.d finger disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc12":
+        command => "update-rc.d rstatd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc13":
+        command => "update-rc.d systat disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc14":
+        command => "update-rc.d ypbind disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc15":
+        command => "update-rc.d tftp disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc16":
+        command => "update-rc.d avahi disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc17":
+        command => "update-rc.d abrtd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc18":
+        command => "update-rc.d atd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc19":
+        command => "update-rc.d ntpdate disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc20":
+        command => "update-rc.d oddjobd disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc21":
+        command => "update-rc.d autofs disable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc22":
+        command => "update-rc.d sysstat enable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc23":
+        command => "update-rc.d sshd enable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+exec { "updaterc24":
+        command => "update-rc.d auditd enable",
+        path    => "/usr/local/bin/:/bin/:/usr/sbin/",
+         }
+
+#######################  sysctl  Values   #################
+
+sysctl { "net.ipv4.tcp_max_syn_backlog":
+    value   => "4096",
+}
+sysctl { " net.ipv4.tcp_syncookies":
+    value   => "1",
+}
+sysctl { "net.ipv4.conf.all.rp_filter":
+    value   => "0",
+}
+sysctl { "net.ipv4.conf.all.accept_source_route":
+    value   => "0",
+}
+sysctl { "net.ipv4.icmp_echo_ignore_broadcasts":
+    value   => "1",
+}
+sysctl { "net.ipv4.icmp_ignore_bogus_error_messages":
+    value   => "1",
+}
+sysctl { "net.ipv4.conf.all.accept_redirects":
+    value   => "0",
+}
+sysctl { "'net.ipv4.conf.default.secure_redirects":
+    value   => "0",
+}
+sysctl { "net.ipv4.conf.all.secure_redirects":
+    value   => "0",
+}
+sysctl { "net.ipv4.conf.default.accept_redirects":
+    value   => "0",
+}
+sysctl { "net.ipv4.conf.default.accept_source_route":
+    value   => "0",
+}
+sysctl { "net.ipv4.ip_forward":
+    value   => "1",
+}
+sysctl { "net.ipv4.conf.all.send_redirects":
+    value   => "0",
+}
+sysctl { "net.ipv4.conf.default.send_redirects":
+    value   => "0",
+}
+
+############################# Banner ##################################
+
+file { 'issue':
+            name    => '/etc/issue',
+            mode    => '0664',
+            owner   => 'root',
+            group   => 'root',
+            content => "This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel. In the course of monitoring individuals improperly using this system, or in the course of system maintenance, the activities of authorized users may also be monitored. Anyone using this system expressly consents to such monitoring and is advised that if such monitoring reveals possible evidence of criminal activity, system personnel may provide the evidence of such monitoring to law enforcement officials."
+}
+
+file { 'motd':
+            name    => '/etc/motd',
+            mode    => '0664',
+            owner   => 'root',
+            group   => 'root',
+            content => "This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel. In the course of monitoring individuals improperly using this system, or in the course of system maintenance, the activities of authorized users may also be monitored. Anyone using this system expressly consents to such monitoring and is advised that if such monitoring reveals possible evidence of criminal activity, system personnel may provide the evidence of such monitoring to law enforcement officials."
+}
+
+##################### Scheduler  #############################
+
+
+
+file { '/etc/at.allow':
+          ensure  => "present",
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+          content => "root",
+    }
+file { '/etc/cron.allow':
+          ensure  => "present",
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+          content => "root",
+    }
+file { '/etc/at.deny':
+          ensure  => "absent",
+    }
+file { '/etc/cron.deny':
+          ensure  => "absent",
+    }
+
+
+###########################################  Default Run level   #################
+
+file {'/etc/init/rc-sysinit.conf':
+      path    => '/etc/init/rc-sysinit.conf',
+      }->
+file_line { 'Append a line to /etc/init/rc-sysinit.conf':
+  path => '/etc/init/rc-sysinit.conf',
+  line => 'env DEFAULT_RUNLEVEL=3',
+  match   => "^env DEFAULT_RUNLEVEL.*$",
+}
+
+###############################  Default UMASK   #################################
+
+file {'/etc/login.defs':
+      path    => '/etc/login.defs',
+     }->
+file_line { 'Append a line to /etc/login.defs':
+  path => '/etc/login.defs',
+  line => 'UMASK           022',
+  match   => "^UMASK.*$",
+}
+
+##############################  File permissions.  ###################
+
+file {'/etc/shadow':
+      ensure => 'file',
+      owner => 'root',
+      group => 'root',
+      mode  => 0400,
+    }
+
+file {'/etc/securetty':
+      ensure => 'file',
+      owner => 'root',
+      group => 'root',
+      mode  => 0600,
+    }
+
+file {'/etc/pam.d':
+      ensure => 'directory',
+      owner => 'root',
+      group => 'root',
+      mode  => 0750,
+    }
+
+file {'/var/log':
+      ensure => 'directory',
+      owner => 'root',
+      group => 'root',
+      mode  => 0751,
+    }
+
+file {'/var/log/wtmp':
+      ensure => 'file',
+      owner => 'root',
+      group => 'root',
+      mode  => 0622,
+    }
+
+file {'/var/spool/cron':
+      ensure => 'directory',
+      owner => 'root',
+      group => 'root',
+      mode  => 0622,
+    }
+
+file {'/var/log/lastlog':
+      ensure => 'file',
+      owner => 'root',
+      group => 'root',
+      mode  => 0622,
+    }
+
+###############################################   Permissions for the encrypted account password   #####################
+
+file {'/etc/gshadow':
+      ensure => 'file',
+      owner => 'root',
+      group => 'root',
+      mode  => 0600,
+    }
+
+################################   Ensure Only Protocol 2 Connections Allowed       #################
+
+file {'/etc/ssh/sshd_config':
+      path    => '/etc/ssh/sshd_config',
+     }->
+file_line { 'Append a line to /etc/ssh/sshd_config':
+  path => '/etc/ssh/sshd_config',
+  line => 'Protocol 2',
+  match   => "^Protocol.*$",
+}
+
+####################################  Collect Session Initiation Information   ###################
+
+package { 'auditd':
+        ensure => installed,
+      }
+
+file {'/etc/audit/audit.rules':
+      path    => '/etc/audit/audit.rules',
+     }->
+file_line { 'Append a line to /etc/audit/audit.rules':
+  path => '/etc/audit/audit.rules',
+  line => '-w /var/log/wtmp -p wa -k session',
+  match   => "^-w /var/log/wtmp.*$",
+
+  }->
+file_line { 'Append a line to /etc/audit/audit.rules1':
+  path => '/etc/audit/audit.rules',
+  line => '-w /var/log/btmp -p wa -k session',
+  match   => "^-w /var/log/btmp.*$",
+}
+
+#############################################   Check for "gpgcheck"   #############
+
+file { "/etc/apt/apt.conf.d/99myown":
+    ensure  => absent,
+  }
+
+##############################################
+
+
